@@ -41,13 +41,13 @@ contract FundMe {
         s_priceFeed = AggregatorV3Interface(priceFeedAddress);
     }
 
-    // receive() external payable {
-    //     fund();
-    // }
+    receive() external payable {
+        fund();
+    }
 
-    // fallback() external payable {
-    //     fund();
-    // }
+    fallback() external payable {
+        fund();
+    }
 
     /**
      * @notice this function fund the contract
@@ -78,6 +78,7 @@ contract FundMe {
         require(success);
     }
 
+    //getter - encapsulation
     function getOwner() public view returns (address) {
         return i_owner;
     }

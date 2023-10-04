@@ -128,7 +128,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
                       )
                   }
               })
-              it("Only allows the owner to withdraw", async function () {
+              it("Only allows the owner to withdraw", async () => {
                   const accounts = await ethers.getSigners()
                   const attackerConnectedContract = await fundMe.connect(
                       accounts[1]
@@ -136,6 +136,28 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   await expect(
                       attackerConnectedContract.withdraw()
                   ).to.be.revertedWithCustomError(fundMe, "FundMe__NotOwner")
+              })
+          })
+          describe("receive", function () {
+              it("should receive ethers", async () => {
+                  await fundMe.fund({ value: sendValue })
+                  const response = await fundMe.getAddressToAmountFunded(
+                      deployer
+                  )
+                  console.log(`Amount funded: ${response}`)
+                  console.log("Updating the fund")
+                  assert.equal(response.toString(), sendValue.toString())
+              })
+          })
+          describe("fallback", function () {
+              it("also should receive ethers", async () => {
+                  await fundMe.fund({ value: sendValue })
+                  const response = await fundMe.getAddressToAmountFunded(
+                      deployer
+                  )
+                  console.log(`Amount funded: ${response}`)
+                  console.log("Updating the fund")
+                  assert.equal(response.toString(), sendValue.toString())
               })
           })
       })
