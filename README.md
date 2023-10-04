@@ -6,7 +6,7 @@ A basic crowd funding smart contract
 <hr>
 
 ## About the projects
-Welcome to CryptoFunding, my first complete smart contract project, a basic crowdfunding smart contract project that I developed as part of my learning journey through FFC. This project marks a significant milestone in my journey to become a blockchain dev. 
+Welcome to CryptoFunding, my first complete smart contract project, a basic crowdfunding smart contract project that I developed as part of my learning journey through FCC. This project marks a significant milestone in my journey to become a blockchain dev. 
 
 ### Built with
 <div align="center">
