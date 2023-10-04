@@ -6,31 +6,23 @@ const { developmentChains } = require("../../helper-hardhat-config")
     ? describe.skip /*run on dev chain */
     : describe("FundMe", async function () {
           let fundMe
-          let signer
+          let deployer
           let mockV3Aggregator
-          let deployer // deployer is signer, idk why signer doesn't work for add people but the numbers ain't match up
-          const sendValue = ethers.parseEther("1")
+          const sendValue = ethers.parseEther("0.1")
           beforeEach(async () => {
-              const accounts = await ethers.getSigners()
-              signer = accounts[0]
-              //console.log(`Deployer is: ${signer}`)
               deployer = (await getNamedAccounts()).deployer
               await deployments.fixture(["all"])
+              console.log(`Deployer is: ${deployer}`)
 
-              const FundMeDeployment = await deployments.get("FundMe")
-              fundMe = await ethers.getContractAt(
-                  FundMeDeployment.abi,
-                  FundMeDeployment.address,
-                  signer
-              )
+              const fundMeAtAddress = (await deployments.get("FundMe")).address
+              fundMe = await ethers.getContractAt("FundMe", fundMeAtAddress)
 
-              const mockV3AggregatorDeployment = await deployments.get(
-                  "MockV3Aggregator"
-              )
+              const mockV3AggregatorAddress = (
+                  await deployments.get("MockV3Aggregator")
+              ).address
               mockV3Aggregator = await ethers.getContractAt(
-                  mockV3AggregatorDeployment.abi,
-                  mockV3AggregatorDeployment.address,
-                  signer
+                  "MockV3Aggregator",
+                  mockV3AggregatorAddress
               )
           })
 
@@ -50,7 +42,11 @@ const { developmentChains } = require("../../helper-hardhat-config")
 
               it("Updates the amount funded data structure", async () => {
                   await fundMe.fund({ value: sendValue })
-                  const response = await fundMe.getAddressToAmountFunded(signer)
+                  const response = await fundMe.getAddressToAmountFunded(
+                      deployer
+                  )
+                  console.log(`Amount funded: ${response}`)
+                  console.log("Updating the fund")
                   assert.equal(response.toString(), sendValue.toString())
               })
 
@@ -76,7 +72,10 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   const transactionResponse = await fundMe.withdraw()
                   const transactionReceipt = await transactionResponse.wait()
                   const { gasUsed, gasPrice } = transactionReceipt
+                  console.log(`Gas used: ${gasUsed}`)
+                  console.log(`Gas price: ${gasPrice}`)
                   const gasCost = gasUsed * gasPrice
+                  console.log(`Gas cost: ${gasCost}`)
 
                   const endingFundMeBalance = await ethers.provider.getBalance(
                       fundMe.target
@@ -84,8 +83,6 @@ const { developmentChains } = require("../../helper-hardhat-config")
                   const endingDeployerBalance =
                       await ethers.provider.getBalance(deployer)
 
-                  // Assert
-                  // Maybe clean up to understand the testing
                   assert.equal(endingFundMeBalance, 0)
                   assert.equal(
                       startingFundMeBalance + startingDeployerBalance,

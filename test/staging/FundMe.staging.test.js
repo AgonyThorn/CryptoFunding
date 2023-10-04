@@ -20,6 +20,7 @@ developmentChains.includes(network.name)
               const endingBalance = await ethers.provider.getBalance(
                   fundMe.target
               )
+              console.log("contract balance should be 0, running assert...")
               assert.equal(endingBalance.toString(), "0")
           })
       })
