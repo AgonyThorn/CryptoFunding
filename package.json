@@ -27,9 +27,9 @@
   "scripts": {
     "test": "yarn hardhat test",
     "test:staging": "yarn hardhat test --network sepolia",
-    "lint": "yarn solhint 'contracts/*.sol",
+    "lint": "yarn solhint contracts/*.sol",
     "lint:fix": "yarn solhint 'contract/*sol' --fix",
-    "format": "yarn prettier -- write .", 
+    "format": "yarn prettier -- write .",
     "coverage": "yarn hardhat coverage"
   }
 }
