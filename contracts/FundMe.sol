@@ -27,6 +27,7 @@ contract FundMe {
 
     address private immutable i_owner;
     uint256 public constant MINIMUM_USD = 50 * 10 ** 18;
+    uint256 s_fundcount = 0;
 
     AggregatorV3Interface private s_priceFeed;
 
@@ -60,6 +61,7 @@ contract FundMe {
             "You need to spend more ETH!"
         );
         s_addressToAmountFunded[msg.sender] += msg.value;
+        s_fundcount++;
         s_funders.push(msg.sender);
     }
 
@@ -74,6 +76,7 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
+        s_fundcount = 0;
         (bool success, ) = i_owner.call{value: address(this).balance}("");
         require(success);
     }
@@ -95,5 +98,9 @@ contract FundMe {
 
     function getPriceFeed() public view returns (AggregatorV3Interface) {
         return s_priceFeed;
+    }
+
+    function getFundcount() public view returns (uint256) {
+        return s_fundcount;
     }
 }
