@@ -101,6 +101,6 @@ contract FundMe {
     }
 
     function getFundcount() public view returns (uint256) {
-        return s_fundcount;
+        return s_fundcount * 10 ** 18;
     }
 }
