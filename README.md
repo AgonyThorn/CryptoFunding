@@ -20,7 +20,7 @@ CryptoFunding is open-source licensed under the MIT License
 
 ## Getting Started
 
-Checkout this project frontend at: "https://github.com/AgonyThorn/CryptoFunding-frontend.git" 
+Checkout this project [frontend](https://github.com/AgonyThorn/CryptoFunding-frontend.git")
 
 ## Security Considerations
 
