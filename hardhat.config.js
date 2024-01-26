@@ -3,7 +3,6 @@ require("dotenv").config()
 require("hardhat-gas-reporter")
 require("hardhat-deploy")
 require("solidity-coverage")
-require("hardhat-deploy")
 
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL
 const PRIVATE_KEY = process.env.PRIVATE_KEY
